@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Efficient Frontier</title>
+    <link rel='stylesheet' href='/stylesheets/portfolio.css' />
+        <script src="style/js/jquery.min.js"></script>
+        <script src="style/js/skel.min.js"></script>
+        <script src="style/js/skel-layers.min.js"></script>
+        <script src="style/js/init.js"></script>
+        <script src="style/js/blockUI.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="/style/css/skel.css" />
+            <link rel="stylesheet" href="/style/css/style.css" />
+            <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+        </noscript>
+        <style>
+                fieldset {
+                    border:2px;
+                    width: 780px;
+                    padding:10px;
+                    margin-bottom:10px;
+                    background:#EEE;
+                    font-family: Arial, sans-serif;
+                    font-size: 15px;
+                    color: black;
+                    text-align: left;
+                    }
+                legend {
+                    padding:5px 10px;
+                    background-color:#4F709F;
+                    color:#FFF;
+                    }
+        </style>
+        <style type="text/css">
+            table{
+            margin-left:auto; 
+            margin-right:auto;
+            }
+            table.paleBlueRows {
+              font-family: "Times New Roman", Times, serif;
+              border: 1px solid #FFFFFF;
+              text-align: center;
+              border-collapse: collapse;
+            }
+            table.paleBlueRows td, table.paleBlueRows th {
+              border: 1px solid #FFFFFF;
+              padding: 3px 2px;
+            }
+            table.paleBlueRows tbody td {
+              font-size: 15px;
+            }
+            table.paleBlueRows tr:nth-child(even) {
+              background: #D0E4F5;
+            }
+            table.paleBlueRows thead {
+              background: #0B6FA4;
+              border-bottom: 5px solid #FFFFFF;
+            }
+            table.paleBlueRows thead th {
+              font-size: 17px;
+              font-weight: bold;
+              color: #FFFFFF;
+              border-left: 2px solid #FFFFFF;
+              text-align: center;
+            }
+            table.paleBlueRows thead th:first-child {
+              border-left: none;
+            }
+
+            table.paleBlueRows tfoot {
+              font-size: 14px;
+              font-weight: bold;
+              color: #333333;
+              background: #D0E4F5;
+              border-top: 3px solid #444444;
+            }
+            table.paleBlueRows tfoot td {
+              font-size: 14px;
+            }
+
+            caption {
+              background: #4682B4;
+              font-size: 22px;
+              font-weight: bold;
+              color: #FFFFFF;
+            }
+
+        </style>
+  </head>
+  <body>
+
+    <div class="indexnav" id="nav2">
+        <a href="/">GI home</a>
+        <a href="/service_index">資料庫</a>
+        <a href="/etf">服務</a>
+    </div>
+    <div id="header"></div>
+    <br>
+    
+    <a href="/etf_re_RPfilter" class="button special">嘗試其他投資組合</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="/etf" class="button special">結束篩選</a>
+
+    <br><br><br>
+
+    <div id='result_list'> </div>
+
+    <form name="form" id='up_form' action='/etf_RPfilter_UploadPortfolio' method='post'>
+        <input id='pid' name='pid' type='text' style='display:none;'/>
+    </form>
+  </body>
+
+  <% if(array_rp100_object.length!=0){%>
+    <script>
+        function upload(id){
+          document.getElementById("pid").value=id;
+          document.getElementById("up_form").submit();
+
+          alert("投資組合已儲存。"); 
+        }
+
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+
+
+        var array_obj = "<%= JSON.stringify(array_rp100_object) %>";
+        var decoded_data = decodeHtml(array_obj)
+        var json_data = JSON.parse(decoded_data);
+
+        console.log("ary_obj_len:"+json_data.length);
+
+        //Generate the html tag.
+        var html = ""
+        for (i = json_data.length-1; i >= 0; i--){
+            html += "<div id=\'id_"+i+"\'>"; //之後用來找的id
+            var date = new Date(json_data[i].time);
+
+
+            var temp_html = "";
+            temp_html = "<fieldset><legend>投資組合["+i+"] "+date+"</legend>";
+            temp_html += "<img style=\"float: left;margin: 10px\" src=\"data:image/png;base64,"+json_data[i].base64+"\" width=\"520\"/><br>";
+            temp_html += "<b>服務系統</b>："+json_data[i].type+"<br>";
+            temp_html += "<b>選擇日期</b>："+json_data[i].selected_date+"<br>";
+            temp_html += "<b>基金類型</b>："+json_data[i].selected_type+"<br>";
+            temp_html += "<b>篩選方式</b>："+json_data[i].filter_type+"<br>";
+            if(json_data[i].aum_id!=""){
+                temp_html += "<b>指定基金</b>："+json_data[i].aum_id+"<br>";
+            }
+            temp_html += "<b>年化收益率</b>："+Math.floor(json_data[i].annualized_returnrate*100)/100+"%<br>";
+
+            id_arr = json_data[i].fund_result_id;
+            name_arr = json_data[i].fund_result_name;
+            weight_arr = json_data[i].weights;
+            netvalue = json_data[i].netvalue;
+            netvalue_3m = json_data[i].netvalue_3m;
+
+            temp_html +="<table class=\"paleBlueRows\" style=\"table-layout:fixed\"><caption>效益組合(Efficient Portfolio Point)</caption><thead><tr><th>名稱</th><th>建議權重(%)</th><th>當日淨值</th><th>3個月後淨值</th></tr></thead>"
+            for(j=0;j<id_arr.length;j++){
+                temp_html += "<tr><td><a href=\"https://finance.yahoo.com/chart/"+id_arr[j]+"\" target=\"_blank\">("+(j+1)+") "+id_arr[j]+" ("+name_arr[j]+")</a></td><td>"+Math.floor(weight_arr[j]*100)/100+"</td><td>"+netvalue[j]+"</td><td>"+netvalue_3m[j]+"</td></tr>";
+            }
+
+            temp_html += "</table>"
+            temp_html += "<button class=\"button special\" onClick=\"upload(\'"+i+"\')\">加入歷史清單</button></fieldset><br>";
+
+            html += temp_html+"</div>";
+            temp_html= "";
+            
+        }
+
+        document.getElementById("result_list").innerHTML = html;
+    
+    </script>
+  <%}%>
+<html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Filter Setting</title>
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+    <link rel='stylesheet' href='/stylesheets/fund_filter.css' />
+    <script>
+        function showDate() {
+            var Select_date = form.message.value;
+            if(Select_date == "") {
+                document.getElementById("DateArea").innerHTML = "Select Date";
+            } else {
+                document.getElementById("DateArea").innerHTML = "<font color=\"blue\">" + Select_date + " selected</font>";
+            }
+        }
+
+        function showVal(box,newVal){
+                document.getElementById("valBox"+box).innerHTML=newVal;
+        }
+
+        function submitFilter() {
+            var Select_date = form.message.value;
+            var Select_rank=[];
+            for (var i =1; i < 7; i++) {
+                Select_rank.push(document.getElementById("valBox"+i).innerHTML);
+            };
+
+            var Data = {
+                "date": Select_date,
+                "rank_3m":Select_rank[0],
+                "rank_6m":Select_rank[1],
+                "rank_1y":Select_rank[2],
+                "rank_2y":Select_rank[3],
+                "rank_3y":Select_rank[4],
+                "rank_5y":Select_rank[5]
+            }
+
+            var json_filterData = JSON.stringify(Data);
+
+            document.getElementById("Selection").value = json_filterData;
+            document.getElementById('filter').submit();
+            document.getElementById("bodyContent").innerHTML = "Processing,please wait ...";
+        }
+        
+    </script>
+    </head>
+    <body>
+    <section id="banner3">
+        <h2>Filter Setting</h2>
+    </section>
+    <header id="header2">
+        <h1><a href="/">GI Home |</a>  <a href="/service_index"> RobotAdvisor |</a><a href="/etf"> ETF |</a> </h1>
+    </header>
+        <div id='bodyContent'>
+            <form name="form" id='filter' action='/etf_4433_SelectNum' method='post'>
+            <!-- 日期處理 -->
+                <span class="time_range" id="DateArea" style="background-color: white; width: 300px; display: inline-block;">Please select date:</span><br/><br/>
+                <input type="date" id="message" placeholder="2016-03-10" value="2016-03-10" min="2016-03-01" max="2016-03-31" oninput="showDate()"><br/><br/>
+                <input id='Selection' name='Selection' type='text' style='display:none;'/>
+
+            <!-- 等級排名 -->
+                <span>3 month rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(1,this.value)">  
+                <span id="valBox1" class="valBox">300</span><br><br>
+
+                <span>6 month rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(2,this.value)">  
+                <span id="valBox2" class="valBox">300</span><br><br>
+
+                <span>1 year rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(3,this.value)">  
+                <span id="valBox3" class="valBox">300</span><br><br>
+
+                <span>2 year rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(4,this.value)">  
+                <span id="valBox4" class="valBox">300</span><br><br>
+
+                <span>3 year rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(5,this.value)">  
+                <span id="valBox5" class="valBox">300</span><br><br>
+
+                <span>5 year rank</span><br>
+                <input type="range" id="range1" name="range1" min="50" max="434" value="300" oninput="showVal(6,this.value)">  
+                <span id="valBox6" class="valBox">300</span><br><br>
+
+                <br/>
+                <input onclick='submitFilter()' type='button' value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

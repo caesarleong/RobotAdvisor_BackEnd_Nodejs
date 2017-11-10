@@ -1,0 +1,93 @@
+<!-- 原版
+etf_RPfilter_FundResult
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Filter Reslt</title>
+    <link rel='stylesheet' href='/stylesheets/portfolio.css' />
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+  </head>
+  <body>
+  
+    <div class="indexnav" id="nav2">
+        <a href="/">GI home</a>
+        <a href="/service_index">資料庫</a>
+        <a href="/etf">服務</a>
+    </div>
+    <div id="header"></div>
+
+    <div id='bodyContent'>
+      <table id="FundArea"></table><br>
+      <form name="form" id='filter' action='/etf_Portfolio' method='post'>
+            <input id='Selection' name='Selection' type='text' style='display:none;'/>
+            <input onclick='submitFilter()' type='button'" value="計算效益前緣" />
+      </form>
+
+      <br>
+    </div>
+  </body>
+  <script type="text/javascript">
+  /**
+        fund_id: results[0],
+        full_fund_id: results[1],
+        aum_id: results[2],
+        full_aum_id: results[3],
+        SelectDate: Data.date
+  **/
+      var fund_id = "<%=fund_id%>".toString().trim().split(" ");
+      var full_fund_id = "<%=full_fund_id%>".toString().trim().split("||");
+      var aum_id = "<%=aum_id%>".toString().trim().split(" ");
+      var full_aum_id = "<%=full_aum_id%>".toString().trim().split("||");
+      
+      FundResultID = [];
+      //把篩選機制篩出來基金id PUSH進去要算portfolio的清單
+      for(i in fund_id){
+        FundResultID.push(fund_id[i]);
+      }
+      if(aum_id[0]!=""){
+          for(i in aum_id){
+          FundResultID.push(aum_id[i]);
+        }
+      }
+      
+      var Select_date = "<%=SelectDate%>";
+
+      //處理html顯示訊息
+      var html = "";
+      for(i=0;i<fund_id.length;i++){
+        html+="<tr>"+"<td>"+"<a href=\"https://finance.yahoo.com/chart/"+fund_id[i].toString()+"\" target=\"_blank\">"+"["+fund_id[i]+"]"+full_fund_id[i]+"</a></td></tr>"
+      }
+      
+      if(aum_id[0]!=""){
+        for(i=0;i<aum_id.length;i++){
+          html+="<tr>"+"<td>"+"<a id=\"a_color2\" href=\"https://finance.yahoo.com/chart/"+aum_id[i].toString()+"\" target=\"_blank\">"+"["+aum_id[i]+"]"+full_aum_id[i]+"</a></td></tr>"
+        }
+      }
+      
+           document.getElementById("FundArea").innerHTML= "<H2>"+html+"</H2>";
+
+      function submitFilter(){
+        //FundResultID = [];
+        //把篩選機制篩出來基金id PUSH進去要算portfolio的清單
+        console.log(FundResultID);
+        var Data = {
+          "FundResultID" : FundResultID,
+          "date" : "<%=SelectDate%>"
+        }
+        var json_filterData = JSON.stringify(Data);
+        document.getElementById("Selection").value=json_filterData;
+        document.getElementById('filter').submit();
+        document.getElementById("bodyContent").innerHTML="Processing,please wait ..."; 
+      }
+  </script>
+</html>

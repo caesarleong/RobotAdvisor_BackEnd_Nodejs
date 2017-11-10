@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Filter Setting</title>
+
+    <link rel='stylesheet' href='/stylesheets/portfolio.css' />
+    <link rel="stylesheet" href="/style/css/style.css" />
+
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+		<style>
+			.button {
+  			  background-color: #555555; /* Gray */
+  			  border: none;
+  			  color: white;
+  			  padding: 15px 32px;
+   			  text-align: center;
+   			  text-decoration: none;
+   			  display: inline-block;
+   			  margin: 4px 2px;
+    		  cursor: pointer;
+    		  font-size: 20px;
+    		}
+    		.button1 {background-color: #01814A;} /* Green */
+			.button2 {background-color: #f44336;} /* Red */ 
+		</style>
+		<script type="text/javascript">
+			var fundList = "<%=fundList%>"
+			var Select_Date = "<%=Select_Date%>"
+			function showButton(newVal){
+			   document.getElementById("ButtonArea").innerHTML=""
+     	       if(newVal > <%= fundList.length %>){
+     	       		document.getElementById("ButtonArea").innerHTML= "Error Input!"
+     	       }else if(newVal < 2){
+                document.getElementById("ButtonArea").innerHTML= "must bigger than 2"
+             }else{
+     	       		var HTMLString = "選擇篩選策略 :<br><button class=\"button button1\" type=\"button\" onclick=\"submitFilter('allCor',"+newVal+",0)\">"+newVal+" Low Correlation</button> "+"<button class=\"button button2\" type=\"button\" onclick=\"submitFilter('allProfit',0,"+newVal+")\">"+newVal+" High Profit</button></br>"
+     	       		for(var i=1;i<newVal;i++){
+     	       			if(i%2 == 1){
+     	       				HTMLString+="<button class=\"button button3\" type=\"button\"onclick=\"submitFilter('other',"+(newVal-i)+","+i+")\">"+i+" High profit +"+(newVal-i)+" Low cor</button></br>"
+     	       			}
+     	       		}
+     	       		if(newVal>1 && newVal<= <%= fundList.length %>){
+     	       			document.getElementById("ButtonArea").innerHTML= HTMLString
+     	       		}
+     	       }
+ 	  	}
+ 	  	function ValidateNumber(e, pnumber){
+    			if (!/^\d+$/.test(pnumber)){
+       				e.value = /^\d+/.exec(e.value);
+   				 }
+   				 return false;
+			}
+			function submitFilter(type,corNum,profitNum){
+			  	var Data = {
+                       	  	"date" : Select_Date,
+                       	    "fundList" : fundList,
+                       	    "type":type,
+                       	    "corNum":corNum,
+                       	    "profitNum":profitNum,
+                            "aum_selected":"<%=aum_selected%>"
+                   		}
+                var json_filterData = JSON.stringify(Data);
+                document.getElementById("Selection").value=json_filterData;
+                document.getElementById('filter').submit();
+                document.getElementById("bodyContent").innerHTML="Processing,please wait ...";
+			}
+		</script>
+	</head>
+	<body>
+	  
+    <div class="indexnav" id="nav2">
+        <a href="/">GI home</a>
+        <a href="/service_index">資料庫</a>
+        <a href="/etf">服務</a>
+    </div>
+
+    <div id="header"></div>
+
+
+    <div id='bodyContent'>
+    	<h2>
+   		<div id='InputArea'>
+   			<% if(fundList.length<=1){ %>
+   				篩選日期: <%=Select_Date%><br>
+          第一階段篩選結果：基金數量過少，請重新選擇。
+   			<% }else {%>
+   				篩選日期: <%=Select_Date%><br><br>
+   				經過第一階段篩選,得到的基金數量是 <%= fundList.length %> 隻。<br>
+   				<% if(fundList.length <3){ %> 第一階段篩選結果：基金數量過少，請重新選擇。<br>
+   				<% }else{ %>
+   				輸入您欲從中再挑選多少隻出來？(請輸入 2 ~ <%= fundList.length %>）<br>
+          <input type="text" id="inputNum" value="" 
+   				oninput="showButton(this.value)" width="20" onkeyup="return ValidateNumber(this,value)">  
+   				<% } %>
+   			<% } %>
+   		</div>
+   		</h2>
+
+   		<div id='ButtonArea'>
+      </div>
+
+      <form name="form" id='filter' action='/etf_FundResult' method='post'>
+        <input id='Selection' name='Selection' type='text' style='display:none;'/>
+      </form>
+      </div>
+   	</body>
+<html>

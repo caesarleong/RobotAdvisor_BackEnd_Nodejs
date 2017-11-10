@@ -1,0 +1,90 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+  display: inline-block;
+}
+
+.portfolioImg{
+    width: 400px;
+    margin: 20px;
+    margin-bottom: 50px;
+}
+
+#portfolioTable{
+    width: 85%;
+    padding-left: 15%;
+}
+
+#portfolioTable td{
+    padding: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.portfolioInput{
+    width: 50px;
+}
+
+.col1{
+  background-color:rgb(255, 158, 158);
+}
+
+.hovered{
+  background-color:#a5a5a5;
+    cursor: pointer;
+}
+.portfolioSend{
+  margin-top: 40px;
+  width:80px;
+}
+
+.fundName{
+    text-align: left;
+}
+
+#portfolioSelection{
+  display: none;
+}
+.portfolio_left{
+  text-align: left;
+}
+
+.dot1{
+  width: 10px;
+  background-color: red;
+  height: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.dot2{
+  width: 10px;
+  background-color: blue;
+  height: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.dot3{
+  width: 10px;
+  background-color: #0cf60d;
+  height: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.imgTable{
+  display: inline-block;
+  vertical-align: top;   
+   margin-top: 200px;
+   margin-left: 50px;
+}
+
+.imgTable td{
+  padding: 15px;
+}

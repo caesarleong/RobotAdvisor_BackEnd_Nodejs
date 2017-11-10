@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Efficient Frontier</title>
+    <link rel="stylesheet" href="/style/css/style.css" />
+    <link rel='stylesheet' href='/stylesheets/portfolio.css' />
+
+        <script src="style/js/jquery.min.js"></script>
+        <script src="style/js/skel.min.js"></script>
+        <script src="style/js/skel-layers.min.js"></script>
+        <script src="style/js/init.js"></script>
+        <script src="style/js/blockUI.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="/style/css/skel.css" />
+            <link rel="stylesheet" href="/style/css/style.css" />
+            <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+        </noscript>
+  </head>
+  <body>
+
+    <div class="indexnav" id="nav2">
+        <a href="/">GI home</a>
+        <a href="/service_index">資料庫</a>
+        <a href="/etf">服務</a>
+    </div>
+    <div id="header"></div>
+
+    <div class="hw-overlay" id="hw-layer">
+        <div class="hw-layer-wrap">
+          <div id="aum_list_management" style="margin-top:10%;"></div>
+          <br>
+          <button class="button special" onclick="submitFilter()">計算效益前緣</button>
+        </div>
+    </div>
+
+    <form name="form" id='filter' action='/etf_SelfSelection_GoPortfolio' method='post'>   
+      <input id='Selection' name='Selection' type='text' style='display:none;'/>
+    </form>
+
+  </body>
+        <script type="text/javascript">
+           var my_fund = []; //chosen's in aum.
+
+          function submitFilter(){
+            if(my_fund.length<3){
+              alert("選擇之基金數量過少");
+            }else{
+              var Data = {
+              "FundResultID" : my_fund,
+                "date" : "<%=date%>"
+              }
+              var json_filterData = JSON.stringify(Data);
+              //alert(json_filterData);
+              document.getElementById("Selection").value=json_filterData;
+              document.getElementById('filter').submit();
+            }
+            
+          }
+
+
+          function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+          }
+
+          //AUM清單生成
+          /*
+          *fundlist=array of jsin objects with fund_name
+          *aum_add_remove=生成選單的字串
+          */
+          fundlist = "<%=fundlist%>"
+          fundlist = JSON.parse(decodeHtml(fundlist))
+          aum_add_remove = "<fieldset><h3>已選清單:</h3><br>";
+          aum_add_remove += "<select name=\"selectfrom\" id=\"select-from\" multiple size="+fundlist.length+" style=\"width: 600px;height: 150px;\">"
+          aum_add_remove +="</select><br><a href=\"JavaScript:void(0);\" id=\"btn-add\">移除&raquo;&nbsp;</a><br><br>"
+
+          aum_add_remove +="<hr><h3>當日基金總表:</h3>快速搜尋：<input id=\"auto_complete_select-to\"><br><select name=\"selectto\" id=\"select-to\" multiple size="+fundlist.length+" style=\"width: 600px;height: 150px;\">"
+          for(i in fundlist){
+            aum_add_remove +=" <option value="+fundlist[i].name+">["+fundlist[i].name+"]  "+fundlist[i].full_name+"</option>"
+          }
+          aum_add_remove +="</select><br><a href=\"JavaScript:void(0);\" id=\"btn-remove\"> 加入&raquo;&nbsp;</a></fieldset>"
+
+          document.getElementById("aum_list_management").innerHTML = aum_add_remove;
+
+
+
+              //auto complete
+              $(function () {
+                opts = $('#select-to option').map(function () {
+                    return [[this.value, $(this).text()]];
+                });
+
+                $('#auto_complete_select-to').keyup(function () {
+                    var rxp = new RegExp($('#auto_complete_select-to').val(), 'i');
+                    var optlist = $('#select-to').empty();
+                    opts.each(function () {
+                        if (rxp.test(this[1])) {
+                            optlist.append($('<option/>').attr('value', this[0]).text(this[1]));
+                        }
+                    });
+
+                });
+
+              });
+
+              //選擇清單
+      $('#btn-add').click(function(){
+          $('#select-from option:selected').each( function() {
+
+              var index = my_fund.indexOf(""+$(this).val()+"");
+              if (index > -1) {
+                my_fund.splice(index, 1);
+              }
+
+              $('#select-to').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+              $(this).remove();
+          });
+          opts = $('#select-to option').map(function () {
+              return [[this.value, $(this).text()]];
+          });
+      });
+      $('#btn-remove').click(function(){
+          $('#select-to option:selected').each( function() {
+              my_fund.push(""+$(this).val()+"");
+              $('#select-from').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+              $(this).remove();
+          });
+          opts = $('#select-to option').map(function () {
+              return [[this.value, $(this).text()]];
+          });
+      });
+        </script>
+<html>

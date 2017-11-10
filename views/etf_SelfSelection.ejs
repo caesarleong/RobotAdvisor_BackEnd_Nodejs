@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Filter Setting</title>
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+
+    <link rel="stylesheet" href="/style/css/style.css" />
+    <link rel='stylesheet' href='/stylesheets/fund_filter.css' />
+
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+    
+
+    <script>
+        function showDate() {
+            var Select_date = form.message.value;
+            if(Select_date == "") {
+                document.getElementById("DateArea").innerHTML = "Select Date";
+            } else {
+                document.getElementById("DateArea").innerHTML = "<font color=\"blue\">已選擇：" + Select_date + "</font>";
+            }
+        }
+        function showDataType(e){
+            document.getElementById("DataTypeArea").innerHTML = "<font color=\"blue\">" + e + " selected</font>";
+        }
+
+        function submitFilter() {
+            var Select_date = form.message.value;
+            var Select_type = form.dataType.value;
+            <!-- 送出後data處理 -->
+            
+            var Data = {
+                "reqTopic": "/frontEnd/RP/TimeSelection",
+                "date": Select_date,
+                "type": Select_type
+            }
+
+            var json_filterData = JSON.stringify(Data);
+            document.getElementById("Selection").value = json_filterData;
+            document.getElementById('filter').submit();
+            document.getElementById("bodyContent").innerHTML = "Processing,please wait ...";
+        }
+    </script>
+    </head>
+    <body>
+        <div class="indexnav" id="nav2">
+        <a href="/">GI home</a>
+        <a href="/service_index">資料庫</a>
+        <a href="/etf">服務</a>
+    </div>
+    <div id="header"></div>
+
+        <div id='bodyContent'>
+            <form name="form" id='filter' action='/etf_SelfSelection_SelectFund' method='post'>
+            <!-- 日期處理 -->
+                <span id="DateArea">請選擇日期:</span>
+                <input type="date" id="message" onkeydown="return false" placeholder="2017-02-01" value="2017-02-01" min="2016-06-01" max="2017-02-28" oninput="showDate()">
+
+                <br/><br/><br><br>
+            <!-- 資料格式 -->
+                <input id='Selection' name='Selection' type='text' style='display:none;'/>
+                    <br/>
+                <span id="DataTypeArea">請選擇資料型別:</span>
+                    <select id="dataType" onchange="showDataType(this.value)">
+                        <option value="Daily Net Worth">Daily Net Worth</option>
+                            <!--
+                                <option value="MA10">MA10</option>
+                                <option value="MA20">MA20</option>
+                            -->
+                    </select>
+                </span>
+                <br><br><br>
+
+                <input onclick='submitFilter()' type='button' value="下一步" />
+            </form>
+        </div>
+
+    </body>
+</html>

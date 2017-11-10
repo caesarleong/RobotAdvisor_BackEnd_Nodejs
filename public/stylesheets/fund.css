@@ -1,0 +1,96 @@
+body {
+  
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+  display: inline-block;
+}
+
+.chooseRef{
+    background-color: #a5a5a5;
+    width: 300px;
+    display: block;
+    height: 280px;
+    padding-top: 20px;
+    margin-top: 40px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    box-shadow: 4px 4px 12px -2px rgba(20%,20%,40%,0.5);
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.chooseRef p {
+    color: black;
+    font-size: 30px;
+}
+
+.chooseRef:hover{
+  cursor: pointer;
+  background-color: gray;
+  color: white;
+}
+
+#fundContent table{
+  text-align: center;
+  display: inline-block;
+  margin-top: 40px;
+  border-collapse: collapse;
+  width: 85%;
+}
+
+#fundContent td{
+  padding: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#fundContent tr{
+  border-bottom: 2px solid #dedcdc;
+  background-color: white;
+}
+
+#fundContent tr:hover{
+  background-color: #a5a5a5;
+  cursor: pointer;
+}
+
+.fundName{
+  text-align: left;
+}
+
+#selectAll{
+  float: left;
+  margin-left: 110px;
+}
+
+.selectLabel{
+  float: left;
+  margin-left: 10px;
+}
+
+.selectSend{
+  width:80px;
+}
+
+#portfolioSelection{
+  display: none;
+}
+
+.Riskcontent{
+  display: inline-block;
+    vertical-align: top;
+    font-size: 20pt;
+    color: black;
+    padding-left: 20px;
+    padding-top: 80px;
+    text-align: center;
+}
+
+.Riskcontent img{
+  vertical-align: bottom;
+}

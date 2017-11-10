@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Global Intelligence</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<script src="style/js/jquery.min.js"></script>
+		<script src="style/js/skel.min.js"></script>
+		<script src="style/js/skel-layers.min.js"></script>
+		<script src="style/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="/style/css/skel.css" />
+			<link rel="stylesheet" href="/style/css/style.css" />
+			<link rel="stylesheet" href="/style/css/style-xlarge.css" />
+		</noscript>
+	</head>
+	
+	<body class="landing">
+	<div class="welcome">	
+		<%if(uname){%>
+			<a>歡迎, <%=uname%>.</a>
+		<%}%>
+	</div>
+
+	<!-- add indexnav -->
+    	<div class="indexnav">
+    		<a>GI</a>
+
+			<%if(uname){%>
+				<a href="/logout">登出</a>	
+			<%}else{%>
+				<a href="/login">登入</a>
+			<%}%>    		
+
+      		<a href="#">註冊</a>
+		</div>
+
+	<!-- Banner -->
+		<section id="banner">
+			<h2>Welcome to GIS </h2>
+			<p>財經智能平台</p>
+
+			<%if(uname){%>
+				<ul class="actions">
+					<li><a href="/service_index" class="button big"> start service </a></li>
+				</ul>
+			<%}else{%>
+				<ul class="actions">
+					<li><a href="/login" class="button big">登入</a></li>
+				</ul>
+			<%}%>
+		</section>
+	</body>
+</html>

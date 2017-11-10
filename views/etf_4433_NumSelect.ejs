@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Filter Setting</title>
+		<link rel='stylesheet' href='/stylesheets/portfolio.css' />
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+		<style>
+			.button {
+  			  background-color: #555555; /* Gray */
+  			  border: none;
+  			  color: white;
+  			  padding: 15px 32px;
+   			  text-align: center;
+   			  text-decoration: none;
+   			  display: inline-block;
+   			  margin: 4px 2px;
+    		  cursor: pointer;
+    		  font-size: 20px;
+    		}
+    		.button1 {background-color: #01814A;} /* Green */
+			.button2 {background-color: #f44336;} /* Red */ 
+		</style>
+		<script type="text/javascript">
+			var fundList = "<%=fundList%>"
+			var Select_Date = "<%=Select_Date%>"
+			function showButton(newVal){
+			   document.getElementById("ButtonArea").innerHTML=""
+     	       if(newVal > <%= fundList.length %>){
+     	       		document.getElementById("ButtonArea").innerHTML= "Error Input!"
+     	       }else if(newVal < 3){
+                document.getElementById("ButtonArea").innerHTML= "must bigger than 3"
+             }else{
+     	       		var HTMLString = "Select your strategy button :<br><button class=\"button button1\" type=\"button\" onclick=\"submitFilter('allCor',"+newVal+",0)\">"+newVal+" Low Correlation</button> "+"<button class=\"button button2\" type=\"button\" onclick=\"submitFilter('allProfit',0,"+newVal+")\">"+newVal+" High Profit</button></br>"
+     	       		for(var i=1;i<newVal;i++){
+     	       			if(i%2 == 1){
+     	       				HTMLString+="<button class=\"button button3\" type=\"button\"onclick=\"submitFilter('other',"+(newVal-i)+","+i+")\">"+i+" High profit +"+(newVal-i)+" Low cor</button></br>"
+     	       			}
+     	       		}
+     	       		if(newVal>1 && newVal<= <%= fundList.length %>){
+     	       			document.getElementById("ButtonArea").innerHTML= HTMLString
+     	       		}
+     	       }
+ 	  	}
+ 	  	function ValidateNumber(e, pnumber){
+    			if (!/^\d+$/.test(pnumber)){
+       				e.value = /^\d+/.exec(e.value);
+   				 }
+   				 return false;
+			}
+			function submitFilter(type,corNum,profitNum){
+			  	var Data = {
+                       	  	"date" : Select_Date,
+                       	    "fundList" : fundList,
+                       	    "type":type,
+                       	    "corNum":corNum,
+                       	    "profitNum":profitNum
+                   		 }
+                var json_filterData = JSON.stringify(Data);
+                document.getElementById("Selection").value=json_filterData;
+                document.getElementById('filter').submit();
+                document.getElementById("bodyContent").innerHTML="Processing,please wait ...";
+			}
+		</script>
+	</head>
+	<body>
+	  
+    	 
+    <section id="banner3">
+        <h2>Filter Setting</h2>
+    </section>
+     
+     <header id="header2">
+        <h1><a href="/">GI Home |</a>  <a href="/service_index"> RobotAdvisor |</a>
+            <a href="/etf"> ETF |</a> </h1>
+     </header>
+
+    <div id='bodyContent'>
+    	<h2>
+   		<div id='InputArea'>
+   			<% if(fundList.length<=1){ %>
+   				Date: <%=Select_Date%><br>
+          After 4433 method intersection<br>
+           we got 0 funds from the blocks you selected.<br>
+          Too less funds,please re-select again.
+   			<% }else {%>
+   				Date: <%=Select_Date%><br>
+   				After 4433 method intersection<br>
+           we got <%= fundList.length %> funds.<br>
+   				<% if(fundList.length <5){ %> Too less funds,please re-select again.
+   				<% }else{ %>
+   				Enter the Portfolio Number you want: (3 ~ <%= fundList.length %>）：<input type="text" id="inputNum" value="" 
+   				oninput="showButton(this.value)" width="20" onkeyup="return ValidateNumber(this,value)">  
+   				<% } %>
+   			<% } %>
+   		</div>
+   		</h2>
+
+   		<div id='ButtonArea'>
+   		</div>
+
+   		<form name="form" id='filter' action='/etf_4433_FundResult' method='post'>
+   			<input id='Selection' name='Selection' type='text' style='display:none;'/>
+      </form>
+   	  </div>
+   	</body>
+<html>

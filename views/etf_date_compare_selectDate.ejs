@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Filter Setting - DC</title>
+    <script src="style/js/jquery.min.js"></script>
+    <script src="style/js/skel.min.js"></script>
+    <script src="style/js/skel-layers.min.js"></script>
+    <script src="style/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/style/css/skel.css" />
+        <link rel="stylesheet" href="/style/css/style.css" />
+        <link rel="stylesheet" href="/style/css/style-xlarge.css" />
+    </noscript>
+    <link rel='stylesheet' href='/stylesheets/fund_filter.css' />
+    <script>
+        function showDate() {
+            var Select_date = form.message.value;
+            if(Select_date == "") {
+                document.getElementById("DateArea").innerHTML = "Select Date";
+            } else {
+                document.getElementById("DateArea").innerHTML = "<font color=\"blue\">" + Select_date + " selected</font>";
+            }
+        }
+        function showDataType(e){
+            document.getElementById("DataTypeArea").innerHTML = "<font color=\"blue\">" + e + " selected</font>";
+        }
+
+        function submitFilter() {
+            var Select_date = form.message.value;
+            var Select_type = form.dataType.value;
+            <!-- 送出後data處理 -->
+            
+            var Data = {
+                "date": Select_date,
+                "type": Select_type
+            }
+
+            var json_filterData = JSON.stringify(Data);
+            document.getElementById("Selection").value = json_filterData;
+            document.getElementById('filter').submit();
+            document.getElementById("bodyContent").innerHTML = "Processing,please wait ...";
+        }
+    </script>
+    </head>
+    <body>
+    <section id="banner3">
+        <h2>Filter Setting</h2>
+    </section>
+    <header id="header2">
+        <h1><a href="/">GI Home |</a>  <a href="/service_index"> RobotAdvisor |</a><a href="/etf"> ETF |</a> </h1>
+    </header>
+        <div id='bodyContent'>
+            <form name="form" id='filter' action='/etf_date_compare_show' method='post'>
+            <!-- 日期處理 -->
+                <span id="DateArea" style="background-color: white; width: 300px; display: inline-block;">Please select date:</span><br/><br/>
+                <input type="date" id="message" placeholder="2017-06-29" value="2017-06-01" min="2016-01-01" max="2017-06-29" oninput="showDate()"><br/><br/>
+            <!-- 資料格式 -->
+                <input id='Selection' name='Selection' type='text' style='display:none;'/>
+                    <br/><span id="DataTypeArea" style="background-color: white; width: 300px; display: inline-block;">Please select data type:</span><br/><br>
+                     <div align="center">
+                         <select id="dataType" style="width: 200px !important;" onchange="showDataType(this.value)">
+                            <option value="Daily Net Worth">Daily Net Worth</option>
+                         </select>
+                     </div>
+                    <br><br><br>
+                <input onclick='submitFilter()' type='button' value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

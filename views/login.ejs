@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="stylesheet" href="/style/css/style.css" />
+		<script src="style/js/jquery.min.js"></script>
+		<script src="style/js/skel.min.js"></script>
+		<script src="style/js/skel-layers.min.js"></script>
+		<script src="style/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="/style/css/skel.css" />
+			<link rel="stylesheet" href="/style/css/style.css" />
+			<link rel="stylesheet" href="/style/css/style-xlarge.css" />
+		</noscript>
+		<meta charset="UTF-8">
+		<title>登入</title>
+				<style>
+
+				</style>
+				<script>
+					function log_submit()
+					{
+						document.getElementById("form_login").submit();
+					} 
+				</script>
+
+	</head>
+
+	<body id="loginBody">
+	
+    <div class="indexnav">
+        <a style="color:black" href="/">GI home</a>
+
+    </div>
+    <div class="clear"></div>
+
+    <div class="f1">
+    	<form name ="form" id="form_login" action="/login_submit" method="post">
+			<h1>登入</h1><hr><br>
+				
+				<label for="username">帳號&nbsp</label>
+				<input class ="name" type="text" id="login_account" name="login_account">
+				<br><br>
+
+				<label for="password">密碼&nbsp</label>
+				<input class="pw" type="password" id="login_pwd" name="login_pwd">
+				<br><br>
+				
+				<div>
+					<button class="but" onclick="log_submit()" >登入</button>
+				</div>
+		</form>
+
+    </div>
+	</body>
+</html>
+
+
+

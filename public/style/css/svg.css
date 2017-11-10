@@ -1,0 +1,29 @@
+
+    body {
+      font: 15px sans-serif;
+    }
+
+    .axis_x, .axis_y {
+      fill: none;
+      stroke: black;
+      stroke-width: 1;
+    }
+
+    .tick line {
+      fill: none;
+      stroke: silver;
+      stroke-width: 0.5;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: 120px;
+      height: 50px;
+      padding: 5px;
+      font: 15px sans-serif;
+      background: lightblue;
+      border: 0px;
+      border-radius: 10px;
+    }
+

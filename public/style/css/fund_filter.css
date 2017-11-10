@@ -1,0 +1,32 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+  display: inline-block;
+}
+
+input[type="range"]{
+      width:500px;
+      height:20px;
+    }
+
+.valBox{
+      width: 28px;
+      display: inline-block;
+      text-align: center;
+      background-color: #FFFFFF;
+margin:5px;
+  }
+
+.time_range{
+    width: 100px;
+      display: inline-block;
+      margin-top: 25px;
+  }
+
+  #rankForm{
+    margin-top: 50px;
+  }

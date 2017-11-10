@@ -1,0 +1,56 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  display: inline-block;
+}
+
+input[type="range"]{
+      width:500px;
+      height:20px;
+    }
+input[type="date"] {
+  background-color: white;
+}
+
+.valBox{
+      width: 28px;
+      display: inline-block;
+      text-align: center;
+      background-color: #FFFFFF;
+      margin:5px;
+  }
+
+.time_range{
+      width: 100px;
+      display: inline-block;
+      margin-top: 25px;
+  }
+
+  #rankForm{
+    margin-top: 50px;
+  }
+
+#bodyContent {
+  margin-top: 100px;
+  margin-left: 100px;
+}
+
+
+#DateArea {
+  width: 300px; 
+  display: inline-block;
+  font-size: 25px;
+}
+
+
+#DataTypeArea {
+  width: 300px; 
+  display: inline-block;
+  font-size: 25px;
+}
+
+#dataType {
+  width: 200px;
+}

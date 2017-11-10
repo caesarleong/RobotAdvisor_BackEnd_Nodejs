@@ -1,0 +1,107 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+  display: inline-block;
+}
+
+h1{
+    margin-bottom: 60px;
+}
+
+#benefitContent{
+    text-align: left;
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.fundName{
+    text-align: left;
+}
+
+.detailTable{
+    border-collapse: collapse;
+    display: none;
+}
+
+.portfolioName{
+    font-size: 15pt;
+    background-color: #a5a5a5;
+    padding: 20px;
+    border: 1px solid black;
+    padding-left: 30px
+}
+
+.portfolioName span{
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.detailTable th{
+    padding: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: black;
+    color: white;
+    width: 450px;
+border: 1px solid black;
+}
+
+.detailTable td{
+    padding: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid black;
+}
+
+.detailTable tr{
+    background-color: white;
+}
+
+.showInfo{
+    background-color: #dccf35;
+    padding: 10px;
+    cursor: pointer;
+    float: right;
+    font-size: 10pt;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.showBtn{
+    width: 13px;
+    padding-left: 3px;
+}
+
+.showInfo:hover{
+    background-color: #f1e991;
+}
+
+#detail{
+    
+    display: inline-block;
+    border: 2px solid black;
+    padding: 10px;
+    background-color: #dedede;
+}
+
+.benefitTable{
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 70px;
+}
+
+.profit{
+    margin-right: 20px;
+    vertical-align: top;
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}

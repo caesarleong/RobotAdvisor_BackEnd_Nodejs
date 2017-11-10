@@ -1,0 +1,44 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+  display: inline-block;
+}
+
+.chooseRisk{
+	background-color: #a5a5a5;
+    width: 850px;
+    display: block;
+    height: 300px;
+    padding-top: 50px;
+    padding-left: 20px;
+    margin-top: 40px;
+    -webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	box-shadow:4px 4px 12px -2px rgba(20%,20%,40%,0.5);
+}
+
+.chooseRisk:hover{
+	cursor: pointer;
+	background-color: gray;
+	color: white;
+}
+
+.Riskcontent{
+	display: inline-block;
+    vertical-align: top;
+    font-size: 20pt;
+    color: black;
+    padding-left: 20px;
+    padding-top: 80px;
+    text-align: left;
+}
+
+.Riskcontent img{
+	vertical-align: bottom;
+}
